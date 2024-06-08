@@ -104,5 +104,30 @@ function cari($keyword){
     return query($query);
 }
 
+function login($username, $password) {
+    $conn = connectDB();
+
+    $query = "SELECT * FROM users WHERE email = '$username'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+$conn = connectDB();
+if ($conn) {
+    echo "Connected successfully";
+} else {
+    echo "Connection failed";
+}
+
 
 ?>

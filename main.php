@@ -3,7 +3,6 @@ session_start();
 
 
 
-if (!isset($_SESSION['user']))
 require "function.php";
 
 $konserQuery = "SELECT * FROM infokonser ORDER BY id ASC";
@@ -26,22 +25,31 @@ if (isset($_POST["cari"])) {
 </head>
 
 <body>
-    <header>
+<header>
         <nav class="atas">
-            <form action="" method="post">
-                <input id="search_id" type="text" size="30" name="keyword" placeholder="Cari konser...">
-                <button type="submit" name="cari">Cari</button>
+            <form>
+                <input id="search_id" type="text" size="30">
                 <div id="container_search"></div>
             </form>
             <ul>
-                <li><a href="main.php">Home</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About</a></li>
                 <li>
-                    <form method="post" action="logout.php">
-                        <button type="submit">Logout</button>
-                    </form>
+                    <a href="main.php">Home</a>
                 </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <li>
+                        <a href="logout.php">Logout</a>
+                    </li>
+                <?php else: ?>
+                    <li>
+                        <a href="login.php">Login</a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>
@@ -76,5 +84,6 @@ if (isset($_POST["cari"])) {
             // Your search logic here (if needed)
         });
     </script>
+
 </body>
 </html>

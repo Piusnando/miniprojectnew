@@ -93,8 +93,16 @@ function ubah($data) {
 }
 
 
-
-
+function cari($keyword){
+    $conn = connectDB();
+    $keyword = $conn->real_escape_string($keyword);
+    $query = "SELECT * FROM infokonser
+              WHERE
+              artis LIKE '%$keyword%' OR
+              tanggal LIKE '%$keyword%' OR
+              tempat LIKE '%$keyword%'";
+    return query($query);
+}
 
 
 ?>

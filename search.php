@@ -20,7 +20,7 @@ include 'koneksi.php';
 $text = strip_tags(htmlspecialchars($_POST['txt']));
 
 // $getName = $conn->prepare("SELECT * FROM konser WHERE nama LIKE concat('%', :nama, '%') ");
-$getName = $pdo->prepare("select * from konser where nama like '%$text%' or nama like '%$text%'");
+$getName = $pdo ->prepare("select * from konser where nama like '%$text%' or nama like '%$text%'");
 // $getName->execute(array('nama' => $text));
 $getName->execute();
 

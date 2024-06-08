@@ -1,15 +1,19 @@
 <?php
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
-    exit(); // Ensure script stops executing after redirect
+
+
+if (!isset($_SESSION['user']))
+require "function.php";
+
+$konserQuery = "SELECT * FROM infokonser ORDER BY id ASC";
+
+if (isset($_POST["cari"])) {
+    $konser = cari($_POST["keyword"]);
+} else {
+    $konser = query($konserQuery);
 }
-
-// Your main.php content goes here
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,98 +28,53 @@ if (!isset($_SESSION['user'])) {
 <body>
     <header>
         <nav class="atas">
-            <form>
-                <input id="search_id" type="text" size="30">
+            <form action="" method="post">
+                <input id="search_id" type="text" size="30" name="keyword" placeholder="Cari konser...">
+                <button type="submit" name="cari">Cari</button>
                 <div id="container_search"></div>
             </form>
             <ul>
+                <li><a href="main.php">Home</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">About</a></li>
                 <li>
-                    <a href="main.html">Home</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="login.php">Logout</a>
+                    <form method="post" action="logout.php">
+                        <button type="submit">Logout</button>
+                    </form>
                 </li>
             </ul>
         </nav>
     </header>
 
     <div id="konten1" class="konten">
-        <h2>Event terdekat</h2>
-
-        <div class="list-konten sheila" name="sheila">
-            <a href="sheila.html"><img src="sheila.png"></a>
-            <p>
-                Sheila on 7
-            </p>
-            <p>
-                Kridosono, 20 April 2024<br />
-                Rp.200.000
-            </p>
-            <div class="lanjutso7">
-                <a href="sheila.html">Detail</a>
-            </div>
-        </div>
-
-        <div class="list-konten guyon">
-            <a href="guyon.html"><img src="guyon.png"></a>
-            <p>
-                Guyon Waton
-            </p>
-            <p>
-                Maguwo, 10 April 2024<br />
-                Rp.150.000
-            </p>
-            <div class="lanjutguyon">
-                <a href="guyon.html">Detail</a>
-            </div>
-        </div>
-
-        <div class="list-konten tulus">
-            <a href="tulus.html"><img src="tulus.png"></a>
-            <p>
-                Tulus
-            </p>
-            <p>
-                Hotel Colombo, 28 April 2024<br />
-                Rp.400.000
-            </p>
-            <div class="lanjuttulus">
-                <a href="tulus.html">Detail</a>
-            </div>
+        <h2>Event Terdekat</h2>
+        <div class="sheila">
+            <?php foreach ($konser as $event): ?>
+                <div class="konser-item" name="<?= htmlspecialchars($event['artis']) ?>">
+                    <a href="<?= strtolower(str_replace(' ', '', $event['artis'])) ?>.html">
+                        <img src="<?= strtolower(str_replace(' ', '', $event['artis'])) ?>.png" alt="<?= htmlspecialchars($event['artis']) ?>">
+                    </a>
+                    <p><?= htmlspecialchars($event['artis']) ?></p>
+                    <p><?= htmlspecialchars($event['tempat'] ?? 'Unknown') ?>, <?= date('d F Y', strtotime($event['tanggal'])) ?><br />
+                        Rp.<?= number_format($event['harga'] ?? 0, 0, ',', '.') ?>
+                    </p>
+                    <div class="detail-link">
+                        <a href="<?= strtolower(str_replace(' ', '', $event['artis'])) ?>.html">Detail</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
     <footer>
-        <p>
-            Beli Tiket Konser Hanya Di tiketkonser.com
-        </p>
+        <p>Beli Tiket Konser Hanya Di tiketkonser.com</p>
     </footer>
 
     <script>
-        var kontens = document.getElementsByClassName("list-konten");
-        var names = '';
-
-        for (var i = 0; i < kontens.length; i++) {
-            console.log(kontens[i].name);
-            names += kontens[i].name;
-        }
-
         var search = document.querySelector('#search_id');
         search.addEventListener("keyup", (event) => {
-
+            // Your search logic here (if needed)
         });
     </script>
-
-    <div id="content">
-        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h1>
-        <p>This is the main page content.</p>
-    </div>
 </body>
-
 </html>

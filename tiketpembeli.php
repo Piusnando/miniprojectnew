@@ -34,7 +34,7 @@ $pemesanan = query("SELECT * FROM pemesanan");
             <td><?= $i; ?></td>
             <td>
                 <a href="ubah.php?id=<?= $row['id']; ?>">Ubah</a>
-                <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                <a href="hapus.php?id=<?= $row['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">Batal</a>
             </td>
             <td><?= $row['id']; ?></td>
             <td><?= $row['namalengkap']; ?></td>

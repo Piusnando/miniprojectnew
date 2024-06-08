@@ -1,21 +1,5 @@
 <?php
 require 'function.php';
-
-
-if (isset($_POST["login"])){
-    $username = $_POST["email"];
-    $password = $_POST["password"];
-
-    $result = mysqli_query($conn, "SELECT * users WHERE email ='$username'");
-
-    if (mysqli_num_rows($result) === 1) {
-        $row = mysqli_fetch_assoc($result);
-        if (mysqli_query($password, $row["password"])) {
-            header("Location: main.php");
-            exit;
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
